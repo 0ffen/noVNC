@@ -186,6 +186,7 @@ const UI = {
         UI.initSetting('view_only', false);
         UI.initSetting('show_dot', false);
         UI.initSetting('path', 'websockify');
+        UI.initSetting('token', '');
         UI.initSetting('repeaterID', '');
         UI.initSetting('reconnect', false);
         UI.initSetting('reconnect_delay', 5000);
@@ -374,6 +375,7 @@ const UI = {
         UI.addSettingChangeHandler('host');
         UI.addSettingChangeHandler('port');
         UI.addSettingChangeHandler('path');
+        UI.addSettingChangeHandler('token');
         UI.addSettingChangeHandler('repeaterID');
         UI.addSettingChangeHandler('logging');
         UI.addSettingChangeHandler('logging', UI.updateLogging);
@@ -440,6 +442,7 @@ const UI = {
             UI.disableSetting('host');
             UI.disableSetting('port');
             UI.disableSetting('path');
+            UI.disableSetting('token');
             UI.disableSetting('repeaterID');
 
             // Hide the controlbar after 2 seconds
@@ -450,6 +453,7 @@ const UI = {
             UI.enableSetting('host');
             UI.enableSetting('port');
             UI.enableSetting('path');
+            UI.enableSetting('token');
             UI.enableSetting('repeaterID');
             UI.updatePowerButton();
             UI.keepControlbar();
@@ -888,6 +892,7 @@ const UI = {
         UI.updateSetting('shared');
         UI.updateSetting('view_only');
         UI.updateSetting('path');
+        UI.updateSetting('token');
         UI.updateSetting('repeaterID');
         UI.updateSetting('logging');
         UI.updateSetting('reconnect');
@@ -1033,6 +1038,7 @@ const UI = {
         const host = UI.getSetting('host');
         const port = UI.getSetting('port');
         const path = UI.getSetting('path');
+        const token = UI.getSetting('token');
 
         if (typeof password === 'undefined') {
             password = UI.getSetting('password');
@@ -1071,6 +1077,7 @@ const UI = {
             url = new URL(path, location.href);
             url.protocol = (window.location.protocol === "https:") ? 'wss:' : 'ws:';
         }
+        url.searchParams.set('token', token);
 
         try {
             UI.rfb = new RFB(document.getElementById('noVNC_container'),
